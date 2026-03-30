@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "414568163828",
+    "project_id": "gogleexample-a067a",
+    "storage_bucket": "gogleexample-a067a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414568163828:android:bf5a8a282594a0a8c5f1a1",
+        "android_client_info": {
+          "package_name": "com.example.scc_survey_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKBxXY2hnTvysgTbe_Z8Ntz6uQ3M2UNhQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
