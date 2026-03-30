@@ -1,15 +1,17 @@
-# s.c.c-3-
-s.c.c 앱개발 3조
-질문 8개씩 그에 따른 답변 2개식
+# scc_survey_app
 
-1. 연애 애착 유형 
-불안형, 안정형, 회피형
+A new Flutter project.
 
-2. 퍼스널 향기 찾기
-우디,시트러스,플로럴,비누/머스크
+## Getting Started
 
-3. 나를 닮은 개발도구
-Java, python, c++, javascript, css
+This project is a starting point for a Flutter application.
 
-피그마 프로토타입 링크
-https://www.figma.com/proto/FOg5ZdQFE5w98kr6Aywd2P/scc--%EC%8B%AC%EB%A6%AC%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%95%B1?node-id=0-1&t=H5z1TMI1HaRHv0fj-1
+A few resources to get you started if this is your first Flutter project:
+
+- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
+- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
