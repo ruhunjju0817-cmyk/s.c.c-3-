@@ -1,0 +1,71 @@
+{
+  "psychTests": {
+    "test_3": {
+      "questions": {
+        "1" : {
+          "question" : "새로운 프로젝트를 시작할 때 나는?",
+          "answers" : {
+            "A" : {"text" : "전체 구조를 먼저 설계한다", "score" : {"Java" : 1, "C++" : 1}},
+            "B" : {"text" : "일단 만들면서 방향을 잡는다", "score" : {"Python" : 2, "JavaScript" : 1}}
+          }
+        },
+        "2" : {
+          "question" : "내가 더 끌리는 작업은?",
+          "answers" : {
+            "A" : {"text" : "성능을 최적화하는 작업", "score" : {"C++" : 1, "Java" : 1}},
+            "B" : {"text" : "화면을 꾸미고 표현하는 작업", "score" : {"CSS" : 2}}
+          }
+        },
+        "3" : {
+          "question" : "작업할 때 나는?",
+          "answers" : {
+            "A" : {"text" : "혼자 깊게 집중하는 편이다", "score" : {"C++" : 1}},
+            "B" : {"text" : "사람들과 소통하며 진행한다", "score" : {"JavaScript" : 2, "CSS" : 1}}
+          }
+        },
+        "4" : {
+          "question" : "새로운 아이디어가 떠오르면?",
+          "answers" : {
+            "A" : {"text" : "실현 가능성을 먼저 따진다", "score" : {"Java" : 1, "C++" : 1}},
+            "B" : {"text" : "일단 시도해본다", "score" : {"Python" : 2, "JavaScript" : 1}}
+          }
+        },
+        "5" : {
+          "question" : "작업 중 선택을 해야 할 때 나는?",
+          "answers" : {
+            "A" : {"text" : "가장 안정적인 방법을 선택한다", "score" : {"Java" : 1, "C++" : 1}},
+            "B" : {"text" : "가장 효율적인 방법을 선택한다", "score" : {"Python" : 1, "JavaScript" : 1}}
+          }
+        },
+        "6" : {
+          "question" : "팀 프로젝트에서 나는 어떤 역할에 가까운가?",
+          "answers" : {
+            "A" : {"text" : "전체 흐름을 정리하고 방향을 잡는다", "score" : {"Java" : 1}},
+            "B" : {"text" : "아이디어를 내고 분위기를 이끈다", "score" : {"JavaScript" : 1, "CSS" : 1, "Python" : 1}}
+          }
+        },
+        "7" : {
+          "question" : "코드에 오류가 발생했을 때 나는?",
+          "answers" : {
+            "A" : {"text" : "원인을 끝까지 분석한다", "score" : {"C++" : 1, "Java" : 1}},
+            "B" : {"text" : "일단 해결하고 다음으로 넘어간다", "score" : {"Python" : 1, "JavaScript" : 1}}
+          }
+        },
+        "8" : {
+          "question" : "결과물을 만들 때 나는?",
+          "answers" : {
+            "A" : {"text" : "내부 로직이 탄탄한 게 중요하다", "score" : {"Java" : 1, "C++" : 1}},
+            "B" : {"text" : "겉으로 보이는 결과가 중요하다", "score" : {"CSS" : 2}}
+          }
+        }
+      },
+      "results" : {
+        "Python" : {"language" : "Python", "description" : "당신은 빠른 실행과 실용성을 중시하는 개발자입니다!"},
+        "C++" : {"language" : "C++", "description" : "당신은 깊이 있는 프로그래밍과 성능 최적화를 중시하는 개발자입니다!"},
+        "Java" : {"language" : "Java", "description" : "당신은 안정적인 코드와 구조적 설계를 중시하는 개발자입니다!"},
+        "JavaScript" : {"language" : "JavaScript", "description" : "당신은 협업과 유연한 개발을 중시하는 개발자입니다!"},
+        "CSS" : {"language" : "CSS", "description" : "당신은 디자인과 사용자 경험을 중시하는 개발자입니다!"}
+      }
+    }
+  }
+}
