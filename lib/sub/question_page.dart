@@ -33,8 +33,8 @@ class _QuestionPage extends State<QuestionPage> {
     // json data type에 맞게 파일 읽는 방식 수정
     Map<String, dynamic> jsonData = jsonDecode(jsonString);
 
-    setState(() {
-      questions = jsonDecode(jsonString);
+    setState(() { // json data type에 맞게 파일 읽는 방식 수정
+      questions = List<dynamic>.from(jsonData['questions']);
     });
   }
 
@@ -94,50 +94,56 @@ class _QuestionPage extends State<QuestionPage> {
               ),
               const SizedBox(height: 60),
 
-              // --- [3. 답변 선택지 버튼들] ---
-              ... (questions[currentIndex]['answer'] as List).map((answer) => Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (currentIndex < questions.length - 1) {
-                        currentIndex++;
-                      } else {
-                        // 마지막 질문이면 결과 페이지로! (학번: 20241207)
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                          return DetailPage(
-                              answer: answer,
-                              question: questions[currentIndex]['question']
+              // --- [3. 답변 선택지 버튼들] --- //Map에 맞게 수정
+              ... (questions[currentIndex]['answers'] as Map).entries.map((entry) {
+                final answerData = entry.value as Map;
+                final answerText = answerData['text'].toString();
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (currentIndex < questions.length - 1) {
+                          currentIndex++;
+                        } else {
+                          // 마지막 질문이면 결과 페이지로! (학번: 20241207)
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+                            return DetailPage(
+                                answer: answerText,
+                                question: questions[currentIndex]['question']
+                            );
+                          }),
                           );
-                        }));
-                      }
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
+                        }
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        answerText,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
                         ),
-                      ],
-                    ),
-                    child: Text(
-                      answer,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
                       ),
                     ),
                   ),
-                ),
-              )).toList(),
+                );
+              }).toList(),
             ],
           ),
         ),
