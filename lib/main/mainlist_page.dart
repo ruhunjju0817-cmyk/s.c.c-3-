@@ -111,7 +111,7 @@ class _MainlistPage extends State<MainlistPage> {
             // --- [리스트 카드 부분] ---
               // --- [리스트 카드] ---
               Expanded(
-                FutureBuilder<List<Map<String, dynamic>>>(
+                child: FutureBuilder<List<Map<String, dynamic>>>(
                   future: loadFirebase(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
