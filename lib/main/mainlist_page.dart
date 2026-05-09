@@ -192,6 +192,8 @@ class _MainlistPage extends State<MainlistPage> {
         ),
       ),
         // +버튼 클릭 시 data가 firebase에 저장
+      floatingActionButton: null
+        /*
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () async {
@@ -210,6 +212,7 @@ class _MainlistPage extends State<MainlistPage> {
               }
             }
         )
+        */
     );
   }
 }
