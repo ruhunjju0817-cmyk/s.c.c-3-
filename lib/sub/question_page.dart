@@ -20,6 +20,8 @@ class QuestionPage extends StatefulWidget {
 class _QuestionPage extends State<QuestionPage> {
   List<dynamic> questions = [];
   int currentIndex = 0;
+  Map<String, int> scores = {};
+  Map<String, dynamic> testData = {};
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _QuestionPage extends State<QuestionPage> {
     Map<String, dynamic> jsonData = jsonDecode(jsonString);
 
     setState(() { // json data type에 맞게 파일 읽는 방식 수정
+      testData = jsonData;
       questions = List<dynamic>.from(jsonData['questions']);
     });
   }
@@ -103,15 +106,31 @@ class _QuestionPage extends State<QuestionPage> {
                   padding: const EdgeInsets.only(bottom: 20.0),
                   child: GestureDetector(
                     onTap: () {
+                      // 선택지 합산 코드 추가
+                      final scoreMap = answerData['score'] as Map;
+
+                      scoreMap.forEach((key, value) {
+                        scores[key.toString()] =
+                            (scores[key.toString()] ?? 0) + (value as int);
+                      });
+
                       setState(() {
                         if (currentIndex < questions.length - 1) {
                           currentIndex++;
                         } else {
                           // 마지막 질문이면 결과 페이지로! (학번: 20241207)
                           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+                            // 합산 결과를 통해 최종 결과 선택
+                            final resultKey = scores.entries
+                                .reduce((a, b) => a.value >= b.value ? a : b)
+                                .key;
+                            final result = Map<String, dynamic>.from(
+                              testData['results'][resultKey],
+                            );
+
                             return DetailPage(
-                                answer: answerText,
-                                question: questions[currentIndex]['question']
+                              answer: result['description'],
+                              question: result['language'],
                             );
                           }),
                           );
