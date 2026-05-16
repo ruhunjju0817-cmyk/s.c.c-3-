@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../detail/detail_page.dart';
 
 class QuestionPage extends StatefulWidget {
-  final String question; // JSON 파일명
+  final String question; // JSON 파일명 (test_1, test_2, test_3, list 등)
   final Color themeColor;
 
   const QuestionPage({
@@ -29,16 +29,25 @@ class _QuestionPage extends State<QuestionPage> {
     loadQuestion();
   }
 
-  // 파일을 읽어오는 함수
   Future<void> loadQuestion() async {
     String jsonString = await rootBundle.loadString('res/api/${widget.question}.json');
-    // json data type에 맞게 파일 읽는 방식 수정
     Map<String, dynamic> jsonData = jsonDecode(jsonString);
 
-    setState(() { // json data type에 맞게 파일 읽는 방식 수정
+    setState(() {
       testData = jsonData;
       questions = List<dynamic>.from(jsonData['questions']);
     });
+  }
+
+  // 🎨 [신규 로직] 테스트 파일명에 맞춰 진행바 및 포인트 컬러를 동적으로 리턴합니다.
+  Color getProgressColor() {
+    if (widget.question.contains('test_1')) {
+      return const Color(0xFFE91E63); // 1번 테스트: 진한 핑크
+    } else if (widget.question.contains('test_2')) {
+      return const Color(0xFF4CAF50); // 2번 테스트: 진한 연두
+    } else {
+      return const Color(0xFF1B81F5); // 3번 테스트 및 기본값: 파랑
+    }
   }
 
   @override
@@ -47,8 +56,11 @@ class _QuestionPage extends State<QuestionPage> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
+    // 파일별 동적 포인트 컬러 가져오기
+    final pointColor = getProgressColor();
+
     return Scaffold(
-      backgroundColor: widget.themeColor, // 넘겨받은 테마색 적용!
+      backgroundColor: widget.themeColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -57,14 +69,14 @@ class _QuestionPage extends State<QuestionPage> {
             children: [
               const SizedBox(height: 50),
 
-              // --- [1. 진행 상태바 & Q 번호] ---
+              // --- [1. 진행 상태바 & Q 번호 (색상 연동)] ---
               Text(
                 'Q${currentIndex + 1}.',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
-                  color: Color(0xFF1B81F5),
+                  color: pointColor, // 👈 테스트별 포인트 색상 적용!
                 ),
               ),
               const SizedBox(height: 16),
@@ -77,7 +89,7 @@ class _QuestionPage extends State<QuestionPage> {
                       value: (currentIndex + 1) / questions.length,
                       minHeight: 8,
                       backgroundColor: Colors.white.withOpacity(0.5),
-                      color: const Color(0xFF1B81F5),
+                      color: pointColor, // 👈 테스트별 진행바 색상 적용!
                     ),
                   ),
                 ),
@@ -97,7 +109,7 @@ class _QuestionPage extends State<QuestionPage> {
               ),
               const SizedBox(height: 60),
 
-              // --- [3. 답변 선택지 버튼들] --- //Map에 맞게 수정
+              // --- [3. 답변 선택지 버튼들] ---
               ... (questions[currentIndex]['answers'] as Map).entries.map((entry) {
                 final answerData = entry.value as Map;
                 final answerText = answerData['text'].toString();
@@ -106,7 +118,6 @@ class _QuestionPage extends State<QuestionPage> {
                   padding: const EdgeInsets.only(bottom: 20.0),
                   child: GestureDetector(
                     onTap: () {
-                      // 선택지 합산 코드 추가
                       final scoreMap = answerData['score'] as Map;
 
                       scoreMap.forEach((key, value) {
@@ -118,9 +129,7 @@ class _QuestionPage extends State<QuestionPage> {
                         if (currentIndex < questions.length - 1) {
                           currentIndex++;
                         } else {
-                          // 마지막 질문이면 결과 페이지로! (학번: 20241207)
                           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                            // 합산 결과를 통해 최종 결과 선택
                             final resultKey = scores.entries
                                 .reduce((a, b) => a.value >= b.value ? a : b)
                                 .key;
@@ -129,8 +138,9 @@ class _QuestionPage extends State<QuestionPage> {
                             );
 
                             return DetailPage(
-                              answer: result['description'],
-                              question: result['language'],
+                              title: result['language'].toString(),
+                              description: result['description'].toString(),
+                              testFile: widget.question,
                             );
                           }),
                           );
