@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../detail/detail_page.dart';
 
 class QuestionPage extends StatefulWidget {
-  final String question; // JSON 파일명 (test_1, test_2, test_3, list 등)
+  final String question; // JSON 파일명
   final Color themeColor;
 
   const QuestionPage({
@@ -39,14 +39,13 @@ class _QuestionPage extends State<QuestionPage> {
     });
   }
 
-  // 🎨 [신규 로직] 테스트 파일명에 맞춰 진행바 및 포인트 컬러를 동적으로 리턴합니다.
   Color getProgressColor() {
     if (widget.question.contains('test_1')) {
-      return const Color(0xFFE91E63); // 1번 테스트: 진한 핑크
+      return const Color(0xFFE91E63);
     } else if (widget.question.contains('test_2')) {
-      return const Color(0xFF4CAF50); // 2번 테스트: 진한 연두
+      return const Color(0xFF4CAF50);
     } else {
-      return const Color(0xFF1B81F5); // 3번 테스트 및 기본값: 파랑
+      return const Color(0xFF1B81F5);
     }
   }
 
@@ -56,7 +55,6 @@ class _QuestionPage extends State<QuestionPage> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    // 파일별 동적 포인트 컬러 가져오기
     final pointColor = getProgressColor();
 
     return Scaffold(
@@ -69,14 +67,13 @@ class _QuestionPage extends State<QuestionPage> {
             children: [
               const SizedBox(height: 50),
 
-              // --- [1. 진행 상태바 & Q 번호 (색상 연동)] ---
               Text(
                 'Q${currentIndex + 1}.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
-                  color: pointColor, // 👈 테스트별 포인트 색상 적용!
+                  color: pointColor,
                 ),
               ),
               const SizedBox(height: 16),
@@ -89,14 +86,13 @@ class _QuestionPage extends State<QuestionPage> {
                       value: (currentIndex + 1) / questions.length,
                       minHeight: 8,
                       backgroundColor: Colors.white.withOpacity(0.5),
-                      color: pointColor, // 👈 테스트별 진행바 색상 적용!
+                      color: pointColor,
                     ),
                   ),
                 ),
               ),
               const SizedBox(height: 60),
 
-              // --- [2. 질문 텍스트] ---
               Text(
                 questions[currentIndex]['question'],
                 textAlign: TextAlign.center,
@@ -109,7 +105,6 @@ class _QuestionPage extends State<QuestionPage> {
               ),
               const SizedBox(height: 60),
 
-              // --- [3. 답변 선택지 버튼들] ---
               ... (questions[currentIndex]['answers'] as Map).entries.map((entry) {
                 final answerData = entry.value as Map;
                 final answerText = answerData['text'].toString();
@@ -137,10 +132,12 @@ class _QuestionPage extends State<QuestionPage> {
                               testData['results'][resultKey],
                             );
 
+                            // 🛠️ [해결] resultKey: resultKey.toString()을 추가해서 매칭 완료!
                             return DetailPage(
                               title: result['language'].toString(),
                               description: result['description'].toString(),
                               testFile: widget.question,
+                              resultKey: resultKey.toString(), // 👈 여기에 쏙 들어갔다능!
                             );
                           }),
                           );

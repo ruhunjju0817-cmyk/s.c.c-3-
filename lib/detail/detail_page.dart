@@ -2,35 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class DetailPage extends StatelessWidget {
-  final String title;       // JSON 결과 데이터의 타이틀 값
-  final String description; // JSON 결과 데이터의 상세 설명 값
-  final String testFile;    // 현재 진행된 테스트 파일명
+  final String title;
+  final String description;
+  final String testFile;
+  final String resultKey;
 
   const DetailPage({
     super.key,
     required this.title,
     required this.description,
     required this.testFile,
+    required this.resultKey,
   });
 
-  // --- [🎨 테스트별 배경색, 포인트 컬러, 인트로 문구 매핑 데이터 정의] ---
   Map<String, dynamic> getThemeData() {
     if (testFile.contains('test_1')) {
       return {
-        'bgColor': const Color(0xFFFCE1E4),       // 💗 1번 테스트: 연핑크 배경
-        'accentColor': const Color(0xFFE91E63),    // 진한 핑크 포인트
-        'introText': '당신의 연애 유형은?',          // 요구사항 문구 반영
+        'bgColor': const Color(0xFFFCE1E4),
+        'accentColor': const Color(0xFFE91E63),
+        'introText': '당신의 연애 유형은?',
       };
     } else if (testFile.contains('test_2')) {
       return {
-        'bgColor': const Color(0xFFE2F0CB),       // 💚 2번 테스트: 연두 배경
-        'accentColor': const Color(0xFF4CAF50),    // 진한 연두 포인트
-        'introText': '나에게서 나는 분위기의 향기는?', // 요구사항 문구 반영
+        'bgColor': const Color(0xFFE2F0CB),
+        'accentColor': const Color(0xFF4CAF50),
+        'introText': '나에게서 나는 분위기의 향기는?',
       };
     } else {
       return {
-        'bgColor': const Color(0xFFDAEAF6),       // 💙 3번 테스트 & 기본: 연하늘 배경
-        'accentColor': const Color(0xFF1B81F5),    // 진한 파란색 포인트
+        'bgColor': const Color(0xFFDAEAF6),
+        'accentColor': const Color(0xFF1B81F5),
         'introText': '당신을 닮은 개발 도구는...',
       };
     }
@@ -40,7 +41,6 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = getThemeData();
 
-    // 스마트폰 상단 바 투명화 세팅 일치화
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
@@ -48,7 +48,7 @@ class DetailPage extends StatelessWidget {
     ));
 
     return Scaffold(
-      backgroundColor: theme['bgColor'], // 👈 테스트 매핑 배경색 동적 전환!
+      backgroundColor: theme['bgColor'],
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -57,7 +57,6 @@ class DetailPage extends StatelessWidget {
             children: [
               const SizedBox(height: 50),
 
-              // 💥 [해결 완료] 고정 문구가 아닌 테스트 파일별 맞춤형 인트로 상단 멘트 출력!
               Text(
                 theme['introText'],
                 textAlign: TextAlign.center,
@@ -69,7 +68,6 @@ class DetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              // 진짜 결과 타이틀 출력
               Text(
                 title,
                 textAlign: TextAlign.center,
@@ -81,7 +79,7 @@ class DetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 40),
 
-              // 캐릭터 이미지 가상 영역 (둥근 원형)
+              // 🛠️ 경로 수정 완료! res/assets/images/ 로 변경했습니다.
               Center(
                 child: Container(
                   width: 240,
@@ -96,16 +94,24 @@ class DetailPage extends StatelessWidget {
                         )
                       ]
                   ),
-                  child: Icon(
-                    Icons.image_outlined,
-                    size: 70,
-                    color: (theme['accentColor'] as Color).withOpacity(0.6),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(120),
+                    child: Image.asset(
+                      'res/assets/images/$resultKey.png', // 👈 여기에 res/ 추가 완료!
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.image_outlined,
+                          size: 70,
+                          color: (theme['accentColor'] as Color).withOpacity(0.6),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
               const SizedBox(height: 40),
 
-              // 진짜 결과 상세 설명 출력
               Container(
                 padding: const EdgeInsets.all(28),
                 decoration: BoxDecoration(
@@ -133,7 +139,6 @@ class DetailPage extends StatelessWidget {
 
               const Spacer(),
 
-              // 처음으로 돌아가기 버튼
               GestureDetector(
                 onTap: () => Navigator.popUntil(context, (route) => route.isFirst),
                 child: Container(
